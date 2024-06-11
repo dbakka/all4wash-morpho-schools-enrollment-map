@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <title>School Enrollment Map</title>
+    <style>html, body {width: 100%;height: 100%;margin: 0;padding: 0;}</style>
+    <style>#map {position:absolute;top:0;bottom:0;right:0;left:0;}</style>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.6.0/dist/leaflet.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.6.0/dist/leaflet.css"/>
+</head>
+<body>
+    <div id="map"></div>
+    <script>
+        var map = L.map('map').setView([0.347596, 32.58252], 10);
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: 'Data by &copy; <a href="http://openstreetmap.org">OpenStreetMap</a>, under <a href="http://www.openstreetmap.org/copyright">ODbL</a>.',
+            maxZoom: 18
+        }).addTo(map);
+
+        var schools = [
+            {
+                name: "Mende Kalema Memorial Primary School",
+                lat: 0.465188,
+                lng: 32.4569,
+                girls: 202,
+                boys: 318,
+                total: 520
+            },
+            {
+                name: "Kasangati Muslim Primary School",
+                lat: 0.441491,
+                lng: 32.60683,
+                girls: 396,
+                boys: 379,
+                total: 775
+            },
+            {
+                name: "Kyebando UMEA Primary School",
+                lat: 0.36145,
+                lng: 32.51298,
+                girls: 977,
+                boys: 936,
+                total: 1913
+            },
+            {
+                name: "Gombe Kayunga Primary School",
+                lat: 0.395698,
+                lng: 32.49416,
+                girls: 518,
+                boys: 527,
+                total: 1045
+            },
+            {
+                name: "Sir Apollo Kaggwa Memorial Primary School - Manyangwa",
+                lat: 0.462641,
+                lng: 32.62776,
+                girls: 598,
+                boys: 519,
+                total: 1117
+            }
+        ];
+
+        schools.forEach(function(school) {
+            var marker = L.marker([school.lat, school.lng]).addTo(map);
+            marker.bindPopup(`<b>${school.name}</b><br>Girls: ${school.girls}<br>Boys: ${school.boys}<br>Total: ${school.total}`);
+            marker.bindTooltip(`<div>${school.name}</div>`, { sticky: true });
+        });
+    </script>
+</body>
+</html>
