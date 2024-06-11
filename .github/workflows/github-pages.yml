@@ -3,7 +3,7 @@ name: Deploy static content to Pages
 on:
   push:
     branches:
-      - main  # Set a branch name to deploy
+      - main  # Set this to your default branch
   pull_request:
     branches:
       - main
@@ -11,32 +11,34 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
     steps:
       - name: Checkout
         uses: actions/checkout@v2
 
       - name: Setup Pages
-        uses: actions/configure-pages@v1
+        uses: actions/configure-pages@v2
 
-      - name: Deploy
+      - name: Build
         run: |
           mkdir -p public
           cp school_enrollment_map.html public/
           touch public/.nojekyll
-          echo "school-enrollment-map" > public/CNAME
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
+        with:
+          path: public
 
   deploy-page:
     needs: deploy
     runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v1
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    environment
+
